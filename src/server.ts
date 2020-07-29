@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import { filterImageFromURL, deleteLocalFiles } from './util/util';
+import {config} from './config/config';
 
 
 (async () => {
@@ -29,10 +30,17 @@ import { filterImageFromURL, deleteLocalFiles } from './util/util';
   //   the filtered image file [!!TIP res.sendFile(filteredpath); might be useful]
 
   /**************************************************************************** */
-  // Image filtering Endpoint
+
+  // Image filtering endpoint
   // Returns a filtered image to the user
   app.get("/filteredimage/", async (req, res) => {
     let { image_url } = req.query;
+
+    let apiKey = req.header("X-API-Key");
+
+    if (!apiKey || apiKey != config.api_key) {
+      return res.status(401).send({ auth: false, message: 'Invalid api key.' });
+    }
 
     if (!image_url) {
       return res.status(400).send(`image_url is required`);
