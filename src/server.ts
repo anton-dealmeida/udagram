@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import { filterImageFromURL, deleteLocalFiles } from './util/util';
-import {config} from './config/config';
+import { config } from './config/config';
 
 
 (async () => {
@@ -66,7 +66,6 @@ import {config} from './config/config';
   app.get("/", async (req, res) => {
     res.send("try GET /filteredimage?image_url={{}}")
   });
-
 
   // Start the Server
   app.listen(port, () => {
